@@ -1,5 +1,6 @@
 /**
  * Class for loading of resources
+ * @singleton
  */
 
 var loaderInstance;
@@ -32,11 +33,11 @@ class Loader {
             request.send();
         });
     }
-
-
-    /*****************SUGAR********************/
-
 }
+
+/**
+ * Realization of singleton in ES6
+ */
 if (!loaderInstance) {
     loaderInstance = new Loader();
 }

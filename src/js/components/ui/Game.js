@@ -1,6 +1,6 @@
 import GameController from './GameController';
 import GameView from './GameView';
-import GameModel from '../core/Model';
+import Model from '../core/Model';
 export default class Game {
     /**
      * Instance of UI initialize
@@ -9,9 +9,8 @@ export default class Game {
      * @param utils
      */
     constructor(configs, renderer, utils){
-        configs.model = new GameModel();
+        configs.model = new Model();
         configs.view = new GameView(configs.model, renderer);
-        this.controller = new GameController(configs, renderer, utils
-        );
+        this.controller = new GameController(configs, renderer, utils);
     }
 }

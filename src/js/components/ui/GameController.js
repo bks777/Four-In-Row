@@ -110,7 +110,7 @@ export default class GameController{
      * Main render method
      */
     _run() {
-        this.renderLoopEndEvents.length = 0;
+        // this.renderLoopEndEvents.length = 0;
         this.renderer.render(this.stage);
         // If we are allowed to draw another time step, do so
         if (this._shouldRenderNextFrame()) {
