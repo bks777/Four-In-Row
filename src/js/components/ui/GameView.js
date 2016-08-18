@@ -1,7 +1,7 @@
 /**
  * View for UI component
  */
-import {viewConfig} from './viewConfig';
+import {config} from './config';
 
 export default class GameView{
     /**

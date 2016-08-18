@@ -1,23 +1,33 @@
 /**
  * Main handler for UI component
  */
+import GameView from './GameView';
+import Model from '../core/Model';
 
 export default class GameController{
-    constructor(configs, renderer, utils){
-        this.view = configs.view;
-        this.model = configs.model;
+    /**
+     * Constructor
+     * @param configs {object} contains:
+     * * initConfig
+     * * userName
+     * * renderer
+     * * utils
+     */
+    constructor(configs){
+        this.model = new Model();
+        this.view = new GameView(this.model, configs.renderer || PIXI);
 
-        this._utils = utils;
-        this._renderer = renderer;
+        this._utils = configs.utils;
+        this._renderer = configs.renderer;
 
-        this._init(configs);
+        this._init(configs.initConfig);
         this.animationBuffer = [];
         this.currentTime = 0;
         this.timeFromStart = 0;
         this.paused = false;
         this.currentStepTime = 0;
         this.isRunning = false;
-        this.sprites = configs.images.sprites || {};
+        this.sprites = configs.initConfig.images.sprites || {};
         // Select which render function to use
         this._selectRenderFunction();
         this.start();
