@@ -3,14 +3,18 @@ import GameView from './GameView';
 import Model from '../core/Model';
 export default class Game {
     /**
-     * Instance of UI initialize
-     * @param configs
-     * @param renderer
-     * @param utils
+     * Interface for a UI instance
+     * @param configs {object} contains:
+     * * initConfig
+     * * userName
+     * * renderer
+     * * utils
      */
-    constructor(configs, renderer, utils){
-        configs.model = new Model();
-        configs.view = new GameView(configs.model, renderer);
-        this.controller = new GameController(configs, renderer, utils);
+    constructor(configs){
+        this.model = new Model();
+        this.view = new GameView(this.model, configs.renderer || PIXI);
+        configs.view = this.view;
+        configs.model = this.model;
+        // this.controller = new GameController(configs);
     }
 }

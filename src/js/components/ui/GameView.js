@@ -16,7 +16,10 @@ export default class GameView{
 
     init(stage){
         this._stage = stage;
+        this._createBackground();
+        this._initUserActions();
         console.info('view inited!');
     }
-    //Make all drawings here
+    _createBackground(){}
+    _initUserActions(){}
 }

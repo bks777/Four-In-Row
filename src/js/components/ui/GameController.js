@@ -3,12 +3,6 @@
  */
 
 export default class GameController{
-    /**
-     * Init UI Controller
-     * @param configs
-     * @param renderer
-     * @param utils
-     */
     constructor(configs, renderer, utils){
         this.view = configs.view;
         this.model = configs.model;
