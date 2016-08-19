@@ -21,6 +21,6 @@ Go to root folder of this project and
 "node_modules\.bin\bower install" from windows to install libraries
 3. Run: "sudo npm build" or "npm build" for compile the code
 
-After this 3 short manipulations you will be able to run index.html from /src/ folder.
+After this 3 short manipulations you will be able to run index.html from root folder.
 
 DEMO PAGE IS HERE: https://bks777.github.io/Four-In-Row/
