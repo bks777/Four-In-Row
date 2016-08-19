@@ -56,21 +56,13 @@ export default class Application {
     }
 
     /**
-     * Callbcak for a user clicked.
-     * @param rowId {Number}
-     */
-    userClickCallback(rowId) {
-
-    }
-
-    /**
      * New move action.
      * @param rowId
-     * @param userId
      * @private
      */
-    _userAction(rowId, userId = this.model.getData('currentUser')) {
-        let currentTable = this._table,
+    userClickCallback(rowId) {
+        let  userId = this.model.getData('currentUser'),
+            currentTable = this._table,
             lineId = undefined,
             nextUserName = config.users[userId],
             newUserId;
@@ -92,15 +84,14 @@ export default class Application {
 
         if (this._isWin(rowId, lineId)) {
             console.info('win of >>', userId);
-            // this.gameUI.animateWin(nextUserName);
+            this.gameUI.animateWin(nextUserName);
             this._endRound();
         } else {
             console.info('make move ' + userId + ' to row ' + rowId + ' and to its line ' + lineId);
             newUserId = this._changeUser(userId);
             nextUserName = config.users[newUserId];
             console.info('user changed to ' + nextUserName);
-            //Draw animation
-            // this.gameUI.animateMoveTo(rowId, lineId, nextUserName);
+            this.gameUI.animateMoveTo(rowId, lineId, nextUserName);
         }
     }
 

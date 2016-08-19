@@ -10,27 +10,16 @@ export default class GameController{
      * @param configs {object} contains:
      * * initConfig
      * * userName
-     * * renderer
      * * utils
      */
     constructor(configs){
         this.model = new Model();
-        this.view = new GameView(this.model, configs.renderer || PIXI);
-
+        this.view = new GameView(this.model);
         this._utils = configs.utils;
-        this._renderer = configs.renderer;
-
         this._init(configs.initConfig);
-        this.animationBuffer = [];
-        this.currentTime = 0;
-        this.timeFromStart = 0;
-        this.paused = false;
-        this.currentStepTime = 0;
-        this.isRunning = false;
         this.sprites = configs.initConfig.images.sprites || {};
-        // Select which render function to use
         this._selectRenderFunction();
-        this.start();
+        this._run();
     }
 
     /**
@@ -41,21 +30,6 @@ export default class GameController{
     _init(configs){
         this._initRenderer(configs);
         this._setupImages(configs);
-    }
-
-    /**
-     * Start to render
-     */
-    start(){
-        var me = this;
-
-        me.isRunning = true;
-
-        me.currentTime = 0;           // Time since the animation started
-        me.lastTimeStepOccured = Date.now();   // The time of last time step render
-        me.paused = false;
-
-        me._requestNextAnimationStep();
     }
 
     /**
@@ -78,72 +52,27 @@ export default class GameController{
 
     /**
      * @private
-     *
-     * @return {number}
+     * Main render method
      */
-    _updateTime() {
-        let now = Date.now(),
-            diff = now - this.lastTimeStepOccured;
-
-        // Check if more time than allowed has passed since the last frame
-        if (diff > 250) {
-            diff = 1000 / 60;
-        }
-
-        this.currentStepTime = diff | 0;
-
-        this.currentTime += this.currentStepTime;
-
-        return now;
-    }
-
-    /**
-     * @private
-     * Signals the manager that the next animation step should be rendered
-     */
-    _requestNextAnimationStep() {
+    _run() {
         let me = this;
 
+        me.renderer.render(me.stage);
         me.animationFunction.call(window, function () {
             me._run();
         });
     }
 
     /**
-     * @private
-     * Main render method
-     */
-    _run() {
-        // this.renderLoopEndEvents.length = 0;
-        this.renderer.render(this.stage);
-        // If we are allowed to draw another time step, do so
-        if (this._shouldRenderNextFrame()) {
-            this.lastTimeStepOccured = this._updateTime();
-            // Request next animation step
-            this._requestNextAnimationStep();
-        } else {
-            this.isRunning = false;
-        }
-    }
-
-    /**
-     * @private
-     * @returns {boolean}
-     */
-    _shouldRenderNextFrame() {
-        return (!this.paused);
-    }
-
-    /**
-     * Add Pixi render and main PIXI container
+     * Add Pixi render and main PIXI stage
      * @param config
      * @private
      */
     _initRenderer(config) {
-        let stage = new this._renderer.Container(),
+        let stage = new PIXI.Container(),
             renderer;
 
-        renderer = this._renderer.autoDetectRenderer(config.width, config.height, {antialias: true, resolution: 1});
+        renderer = PIXI.autoDetectRenderer(config.width, config.height, {antialias: true, resolution: 1});
         renderer.view.id = "canvasAnimationManager";
         document.getElementById('container').appendChild(renderer.view);
 
@@ -161,14 +90,14 @@ export default class GameController{
             rawImages = configs.images.animationImages || [],
             images = {};
 
-        me.loader = me._renderer.loader;
+        me.loader = PIXI.loader;
         for (let image of rawImages){
             me.loader.add(image.imageName, image.imageSrc);
         }
         me.loader.once('complete', function (loader, res) {
             for (let image in res){
-                images[image] = new me._renderer.Texture(
-                    new me._renderer.BaseTexture(res[image].data)
+                images[image] = new PIXI.Texture(
+                    new PIXI.BaseTexture(res[image].data)
                 );
             }
             me.model.setData('textures', images);
@@ -178,11 +107,11 @@ export default class GameController{
         me.loader.load();
     }
 
-    /**
-     * Start the animation again
-     */
-    continueAnimation() {
-        this.paused = false;
-        this._run();
+    animateWin(userName){
+
+    }
+
+    animateMoveTo(columnTo, cellTo, userName){
+
     }
 }
