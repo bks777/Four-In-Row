@@ -6,7 +6,7 @@
     "animationImages": [
       {
         "imageName": "background",
-        "imageSrc": "./img/Connect4Board.png"
+        "imageSrc": "./res/Connect4Board.png"
       }
     ]
   }
