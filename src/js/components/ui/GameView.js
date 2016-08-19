@@ -31,7 +31,7 @@ export default class GameView{
         let bgTexture = this.model.getData('textures')['background'],
             bgSprite = new PIXI.Sprite(bgTexture);
         bgSprite.y = config.background.topOffset;
-
+        this._createGrid();
         this._stage.addChild(bgSprite);
     }
 
@@ -42,11 +42,11 @@ export default class GameView{
     _initLabels(){
         let labelsContainer = new PIXI.Container(),
             roundIdLabel = new PIXI.Text(
-                config.labels.roundId.text,
+                config.labels.roundId.text + this.model.getData('roundId'),
                 config.labels.roundId.style
             ),
             currentUserLabel = new PIXI.Text(
-                config.labels.currentUser.text,
+                config.labels.currentUser.text + this.model.getData('currentUserName'),
                 config.labels.currentUser.style
             ),
             winLabel = new PIXI.Text(
@@ -71,12 +71,63 @@ export default class GameView{
         labelsContainer.addChild(winLabel);
         labelsContainer.addChild(newRoundLabel);
 
-        this._labels = {}
-
+        this._labels = {
+            roundIdLabel,
+            currentUserLabel,
+            winLabel,
+            newRoundLabel
+        };
         this._stage.addChild(labelsContainer);
     }
 
     _initUserActions(){
+        let me = this;
+        for(let column of this._mapObject.gridContainers){
+            column.interactive = true;
+            column.click = function(mouseData){
+                me.model.getData('clickCallback')(this.id);
+            };
+            column.mouseover = function(mouseData){
+                //make bg effects
+            };
+        }
+    }
 
+    /**
+     * Creates PIXI Containers and empty PIXI Sprites for a game
+     * @private
+     */
+    _createGrid(){
+        let grid = [],
+            gridContainers = [],
+            tableData = this.model.getData('mapConfig'),
+            gridContainer = new PIXI.Container(),
+            tempColumnContainer,
+            tempCell;
+
+        for(let columnId = 0; columnId < tableData.rows; columnId++){
+            gridContainer.addChild(tempColumnContainer = new PIXI.Container);
+            tempColumnContainer.position = new PIXI.Point(
+                columnId * config.map.columnWidth,
+                0
+            );
+            tempColumnContainer.id = columnId;
+            gridContainers.push(tempColumnContainer);
+            grid.push([]);
+            for(let cellId = 0; cellId < tableData.lines; cellId++){
+                tempCell = new PIXI.Sprite();
+                tempCell.width = config.map.columnWidth;
+                tempCell.height = config.map.cellHeight;
+                tempColumnContainer.addChild(tempCell);
+                tempCell.position = new PIXI.Point(0, cellId * config.map.cellHeight);
+                grid[columnId].push(tempCell);
+            }
+        }
+        gridContainer.position = new PIXI.Point(0, config.background.topOffset);
+        this._stage.addChild(gridContainer);
+        this._mapObject = {
+            grid,
+            gridContainers
+        };
     }
 }

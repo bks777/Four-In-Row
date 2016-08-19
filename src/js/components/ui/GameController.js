@@ -11,9 +11,16 @@ export default class GameController{
      * * initConfig
      * * userName
      * * utils
+     * * roundId
+     * * mapConfig
+     * * clickCallback
      */
     constructor(configs){
         this.model = new Model();
+        this.model.setData('roundId', configs.roundId);
+        this.model.setData('mapConfig', configs.mapConfig);
+        this.model.setData('clickCallback', configs.clickCallback);
+        this.model.setData('currentUserName', configs.userName);
         this.view = new GameView(this.model);
         this._utils = configs.utils;
         this._init(configs.initConfig);
@@ -24,12 +31,12 @@ export default class GameController{
 
     /**
      * Base Init
-     * @param configs
+     * @param config
      * @private
      */
-    _init(configs){
-        this._initRenderer(configs);
-        this._setupImages(configs);
+    _init(config){
+        this._initRenderer(config);
+        this._setupImages(config);
     }
 
     /**

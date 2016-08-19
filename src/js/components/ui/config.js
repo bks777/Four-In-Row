@@ -40,5 +40,8 @@ export let config = {
             position: new PIXI.Point(0, 0)
         }
     },
-
+    map: {
+        columnWidth: Math.ceil(640 / 7),
+        cellHeight: Math.ceil(480 / 6)
+    }
 };

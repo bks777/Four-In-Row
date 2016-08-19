@@ -34,7 +34,9 @@ export default class Application {
             userName: config.users[this.model.getData('currentUser')],
             renderer: this.model.getData('renderer'),
             utils: this._utils,
-            clickCallback: this.userClickCallback
+            clickCallback: this.userClickCallback.bind(this),
+            roundId: this.model.getData('roundId'),
+            mapConfig: config.table
         });
     }
 
