@@ -7,13 +7,13 @@ import Model from '../core/Model';
 export default class GameController{
     /**
      * Constructor
-     * @param configs {object} contains:
-     * * initConfig
-     * * userName
-     * * userId
+     * @param configs {Object} contains:
+     * * initConfig {Object} config of images
+     * * userName {String} name of user to draw
+     * * userId {Integer}
      * * roundId
-     * * mapConfig
-     * * clickCallback
+     * * mapConfig {Object} default config for a map
+     * * clickCallback {Function} callback to use for user action.
      */
     constructor(configs){
         this.model = new Model();
@@ -114,16 +114,29 @@ export default class GameController{
         me.loader.load();
     }
 
+    /**
+     * Show win message and triggers new round draw.
+     * @param userName
+     */
     animateWin(userName){
-        alert(userName + " win!")
+        this.view.showWin(userName);
+        setTimeout(this.view.startNewRound.bind(this.view), 2000);
     }
 
-    animateMoveTo(columnTo, cellTo, userName, userId){
-        console.log(arguments, 'args');
+    /**
+     * Promise for animation of ball.
+     * @param columnTo
+     * @param cellTo
+     * @param userName
+     * @param userId
+     * @param round
+     */
+    animateMoveTo(columnTo, cellTo, userName, userId, round){
         new Promise((resolve, reject)=>{
             this.view.animateMoveTo(columnTo, cellTo, userId, resolve)
-        }).then((data)=>{
-            this.view.changeUser(userName, userId)
+        }).then(()=>{
+            this.view.changeUser(userName, userId);
+            this.view.changeRound(round)
         })
     }
 }

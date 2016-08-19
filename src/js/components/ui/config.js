@@ -4,7 +4,7 @@ export let config = {
     },
     labels: {
         roundId: {
-            text: 'This is round #',
+            text: 'This is move#',
             style: {
                 font: 'bold 20px Arial',
                 fill: '#00ff00',
@@ -13,9 +13,9 @@ export let config = {
             position: new PIXI.Point(0, 0)
         },
         currentUser:{
-            text: 'Current move belongs to: ',
+            text: 'Now is a move of: ',
             style: {
-                font: 'bold 30px Arial',
+                font: 'bold 40px Arial',
                 fill: '#ff0000',
                 stroke: '#cccccc'
             },
@@ -23,10 +23,10 @@ export let config = {
             position: new PIXI.Point(0, 50)
         },
         win: {
-            text: 'CONGRATULATIONS! User wins!',
+            text: 'WIN of ',
             style: {
                 font: 'bold 35px Arial',
-                fill: '#ff0000',
+                fill: '#ffffff',
                 stroke: '#cccccc'
             },
             position: new PIXI.Point(100, 50)
@@ -50,6 +50,7 @@ export let config = {
         radius: 40
     },
     animation: {
-        time: .4
+        time: .4,
+        autoStartTime: 2000
     }
 };

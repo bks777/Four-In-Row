@@ -80,16 +80,23 @@ export default class GameView{
         this._stage.addChild(labelsContainer);
     }
 
+    /**
+     * Set event listeners for columns
+     * @private
+     */
     _initUserActions(){
         let me = this;
         for(let column of this._mapObject.gridContainers){
             column.interactive = true;
             column.buttonMode = true;
             column.defaultCursor = 'pointer';
-            column.click = function(mouseData){
+            column.click = function(){
+                for(let column of me._mapObject.gridContainers){
+                    column.interactive = false;
+                }
                 me.model.getData('clickCallback')(this.id);
             };
-            column.mouseover = function(mouseData){
+            column.mouseover = function(){
                 //make bg effects
             };
         }
@@ -133,8 +140,16 @@ export default class GameView{
         };
     }
 
+    /**
+     * Implementation of TweenLite animation
+     * @param columnTo
+     * @param cellTo
+     * @param userId
+     * @param resolve
+     */
     animateMoveTo(columnTo, cellTo, userId, resolve){
-        let currentColor = config.map.colors[userId],
+        let me = this,
+            currentColor = config.map.colors[userId],
             currentColumn = this._mapObject.gridContainers[columnTo],
             currentCell = this._mapObject.grid[columnTo][cellTo],
             newCircleObject = new PIXI.Graphics(),
@@ -151,17 +166,58 @@ export default class GameView{
         animateSymbol= TweenLite.to(newCircleObject, config.animation.time, {
                 y: toY,
                 onComplete: function () {
+                    for(let column of me._mapObject.gridContainers){
+                        column.interactive = true;
+                    }
                     animateSymbol.kill();
                     currentColumn.removeChild(newCircleObject);
                     currentCell.texture = newCircleObject.texture;
+
                     resolve();
                 },
                 ease: 'Sine.easeIn'
             });
     }
 
-    changeUser(userName, userId){
+    /**
+     * Draws a new user name.
+     * @param userName
+     * @param userId
+     */
+    changeUser(userName, userId = 1){
         this._labels.currentUserLabel.text = config.labels.currentUser.text + userName;
         this._labels.currentUserLabel.style.fill = config.labels.currentUser.fillColors[userId];
+    }
+
+    /**
+     * Draws a new round Id
+     * @param id
+     */
+    changeRound(id){
+        this._labels.roundIdLabel.text =  config.labels.roundId.text + id;
+    }
+
+    /**
+     * Show Win message
+     * @param name
+     */
+    showWin(name){
+        this._labels.currentUserLabel.visible = false;
+        this._labels.winLabel.text = config.labels.win.text + name + '!!!';
+        this._labels.winLabel.visible = true;
+    }
+
+    /**
+     * Clear map and changing user to dafault
+     */
+    startNewRound(){
+        this.changeUser(this.model.getData('currentUserName'));
+        this._labels.winLabel.visible = false;
+        this._labels.currentUserLabel.visible = true;
+        for(let grid of this._mapObject.grid){
+            for (let cell of grid){
+                cell.texture = PIXI.Texture.EMPTY;
+            }
+        }
     }
 }

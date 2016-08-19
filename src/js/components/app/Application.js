@@ -1,3 +1,6 @@
+/**
+ * Business Logic Module
+ */
 import Game from '../ui/GameController';
 import Model from '../core/Model';
 import config from './config'
@@ -64,14 +67,14 @@ export default class Application {
         let  userId = this.model.getData('currentUser'),
             currentTable = this._table,
             lineId = undefined,
-            nextUserName = config.users[userId],
+            nextUserName,
             newUserId;
 
         for (let lineIdx = 0; lineIdx < currentTable[rowId].length; lineIdx++) {
             if (currentTable[rowId][lineIdx] !== undefined) {
                 lineId = --lineIdx;
                 if (lineId < 0) {
-                    console.error('max line exceed');
+                    console.info('max line exceed');
                     return;
                 }
                 break;
@@ -81,17 +84,15 @@ export default class Application {
             lineId = currentTable[rowId].length - 1;
         }
         this._table[rowId][lineId] = userId;
-
+        newUserId = this._changeUser(userId);
+        nextUserName = config.users[newUserId];
         if (this._isWin(rowId, lineId)) {
-            console.info('win of >>', userId);
-            this.gameUI.animateWin(nextUserName);
             this._endRound();
+            this.gameUI.animateMoveTo(rowId, lineId, nextUserName, userId, this.model.getData('roundId'));
+            this.gameUI.animateWin(config.users[userId]);
         } else {
-            console.info('make move ' + userId + ' to row ' + rowId + ' and to its line ' + lineId);
-            newUserId = this._changeUser(userId);
-            nextUserName = config.users[newUserId];
-            console.info('user changed to ' + nextUserName);
-            this.gameUI.animateMoveTo(rowId, lineId, nextUserName, userId);
+            this.model.setData('roundId', this.model.getData('roundId') + 1);
+            this.gameUI.animateMoveTo(rowId, lineId, nextUserName, userId, this.model.getData('roundId'));
         }
     }
 
@@ -178,6 +179,6 @@ export default class Application {
     _endRound(){
         this.model.setData('currentUser', 0);
         this._clearTable();
-        this.model.setData('roundId', this.model.getData('roundId') + 1);
+        this.model.setData('roundId', 0);
     }
 }
