@@ -23,4 +23,4 @@ Go to root folder of this project and
 
 After this 3 short manipulations you will be able to run index.html from /src/ folder.
 
-DEMO PAGE IS HERE: 
+DEMO PAGE IS HERE: https://bks777.github.io/Four-In-Row/
