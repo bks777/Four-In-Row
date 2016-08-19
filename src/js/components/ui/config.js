@@ -19,6 +19,7 @@ export let config = {
                 fill: '#ff0000',
                 stroke: '#cccccc'
             },
+            fillColors: ['#0000ff', '#ff0000'],
             position: new PIXI.Point(0, 50)
         },
         win: {
@@ -42,6 +43,13 @@ export let config = {
     },
     map: {
         columnWidth: Math.ceil(640 / 7),
-        cellHeight: Math.ceil(480 / 6)
+        cellHeight: Math.ceil(480 / 6),
+        colors: [0xff0000, 0x0000ff]
+    },
+    circle: {
+        radius: 40
+    },
+    animation: {
+        time: .4
     }
 };

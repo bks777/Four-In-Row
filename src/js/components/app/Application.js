@@ -7,13 +7,11 @@ export default class Application {
      * Constructor for a business logic
      * @param conf {Object} parsed JSON with all resources and base config
      * @param renderer {Object} PIXI as a renderer for now
-     * @param utils {Object} core utilities
      */
-    constructor(conf, renderer, utils) {
+    constructor(conf, renderer) {
         this.model = new Model();
         this.model.setData('initConfig', conf);
         this.model.setData('renderer', renderer);
-        this._utils = utils;
         this._table = null;
         this._init();
     }
@@ -33,10 +31,10 @@ export default class Application {
             initConfig: this.model.getData('initConfig'),
             userName: config.users[this.model.getData('currentUser')],
             renderer: this.model.getData('renderer'),
-            utils: this._utils,
             clickCallback: this.userClickCallback.bind(this),
             roundId: this.model.getData('roundId'),
-            mapConfig: config.table
+            mapConfig: config.table,
+            userId: this.model.getData('currentUser')
         });
     }
 
@@ -93,7 +91,7 @@ export default class Application {
             newUserId = this._changeUser(userId);
             nextUserName = config.users[newUserId];
             console.info('user changed to ' + nextUserName);
-            this.gameUI.animateMoveTo(rowId, lineId, nextUserName);
+            this.gameUI.animateMoveTo(rowId, lineId, nextUserName, userId);
         }
     }
 

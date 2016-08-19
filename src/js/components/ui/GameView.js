@@ -84,6 +84,8 @@ export default class GameView{
         let me = this;
         for(let column of this._mapObject.gridContainers){
             column.interactive = true;
+            column.buttonMode = true;
+            column.defaultCursor = 'pointer';
             column.click = function(mouseData){
                 me.model.getData('clickCallback')(this.id);
             };
@@ -129,5 +131,37 @@ export default class GameView{
             grid,
             gridContainers
         };
+    }
+
+    animateMoveTo(columnTo, cellTo, userId, resolve){
+        let currentColor = config.map.colors[userId],
+            currentColumn = this._mapObject.gridContainers[columnTo],
+            currentCell = this._mapObject.grid[columnTo][cellTo],
+            newCircleObject = new PIXI.Graphics(),
+            animateSymbol,
+            currentX = currentColumn.x + (config.circle.radius / 2),
+            currentY = currentColumn.y + (config.circle.radius / 2),
+            toY = currentCell.y;
+
+        newCircleObject.beginFill(currentColor);
+        newCircleObject.drawCircle(currentX, currentY, config.circle.radius);
+        newCircleObject.endFill();
+        newCircleObject = new PIXI.Sprite(newCircleObject.generateTexture());
+        currentColumn.addChild(newCircleObject);
+        animateSymbol= TweenLite.to(newCircleObject, config.animation.time, {
+                y: toY,
+                onComplete: function () {
+                    animateSymbol.kill();
+                    currentColumn.removeChild(newCircleObject);
+                    currentCell.texture = newCircleObject.texture;
+                    resolve();
+                },
+                ease: 'Sine.easeIn'
+            });
+    }
+
+    changeUser(userName, userId){
+        this._labels.currentUserLabel.text = config.labels.currentUser.text + userName;
+        this._labels.currentUserLabel.style.fill = config.labels.currentUser.fillColors[userId];
     }
 }

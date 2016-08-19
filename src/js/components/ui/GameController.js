@@ -10,7 +10,7 @@ export default class GameController{
      * @param configs {object} contains:
      * * initConfig
      * * userName
-     * * utils
+     * * userId
      * * roundId
      * * mapConfig
      * * clickCallback
@@ -21,8 +21,8 @@ export default class GameController{
         this.model.setData('mapConfig', configs.mapConfig);
         this.model.setData('clickCallback', configs.clickCallback);
         this.model.setData('currentUserName', configs.userName);
+        this.model.setData('currentUserId', configs.userId);
         this.view = new GameView(this.model);
-        this._utils = configs.utils;
         this._init(configs.initConfig);
         this.sprites = configs.initConfig.images.sprites || {};
         this._selectRenderFunction();
@@ -115,10 +115,15 @@ export default class GameController{
     }
 
     animateWin(userName){
-
+        alert(userName + " win!")
     }
 
-    animateMoveTo(columnTo, cellTo, userName){
-
+    animateMoveTo(columnTo, cellTo, userName, userId){
+        console.log(arguments, 'args');
+        new Promise((resolve, reject)=>{
+            this.view.animateMoveTo(columnTo, cellTo, userId, resolve)
+        }).then((data)=>{
+            this.view.changeUser(userName, userId)
+        })
     }
 }
