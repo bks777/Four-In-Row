@@ -54,7 +54,6 @@ export default class Application {
                 table[row].push(undefined);
             }
         }
-        console.info(table, " <<< Table created!");
         this._table = table;
     }
 
