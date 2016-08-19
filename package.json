@@ -1,5 +1,5 @@
 {
-  "name": "Tetris",
+  "name": "Four-In-Row",
   "version": "1.0.0",
   "description": "test task",
   "main": "index.js",
@@ -9,19 +9,19 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-    "type": "",
-    "url": ""
+    "type": "github",
+    "url": "https://github.com/bks777/Four-In-Row.git"
   },
   "keywords": [
     "test",
-    "tetris"
+    "forInRow"
   ],
   "author": "Konstantin Bokov <kastianchiik@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/bks777/Four-In-Row.git"
   },
-  "homepage": "",
+  "homepage": "https://github.com/bks777/Four-In-Row.git",
   "devDependencies": {
     "babel-cli": "^6.11.4",
     "babel-core": "^6.11.4",

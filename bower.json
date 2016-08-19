@@ -1,13 +1,13 @@
 {
-  "name": "Tetris",
-  "homepage": "",
+  "name": "FIR",
+  "homepage": "https://github.com/bks777/Four-In-Row.git",
   "authors": [
     "Konstantin Bokov <kastianchiik@gmail.com>"
   ],
   "description": "Test task",
   "main": "[ ./js/main.js]",
   "keywords": [
-    "tetris"
+    "Four In Row"
   ],
   "license": "MIT",
   "private": true,

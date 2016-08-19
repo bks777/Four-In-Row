@@ -1,5 +1,5 @@
-Test TETRIS game for Yggdrassil.
-It's a very basic solution was made from scratch in approximately 10 hrs.
+Test Four In Row game for GLUCK.
+It's a very basic solution was made from scratch in approximately 4 hrs.
 The main thing is to show module solution with minimum visual effects.
 
 I used such technologies as: 
@@ -14,7 +14,7 @@ Before the installation you need:
  * npm to be installed.
  * any local web server must be installed
 
-All you need to install this app:
+All you need to build this app:
 Go to root folder of this project and 
 1. Run: "npm install" to install base packages
 2. Run: "sudo npm run package" from unix system, or
@@ -22,3 +22,5 @@ Go to root folder of this project and
 3. Run: "sudo npm build" or "npm build" for compile the code
 
 After this 3 short manipulations you will be able to run index.html from /src/ folder.
+
+DEMO PAGE IS HERE: 
