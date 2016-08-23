@@ -1,4 +1,4 @@
-Test Four In Row game for GLUCK.
+Four In Row game.
 It's a very basic solution was made from scratch in approximately 4 hrs.
 The main thing is to show module solution with minimum visual effects.
 
